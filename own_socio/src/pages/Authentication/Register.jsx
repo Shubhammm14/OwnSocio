@@ -1,7 +1,10 @@
 import { FormControlLabel, Radio, RadioGroup, TextField } from '@mui/material';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import * as yup from 'yup';
+import { registerUserAction } from '../../Redux/Auth/authAction';
+import { useNavigate } from 'react-router-dom';
 
 const initialValues = {
     email: '',
@@ -21,12 +24,14 @@ const validationSchema = yup.object().shape({
 
 const Register = () => {
     const [selectedGender, setSelectedGender] = useState('female'); // Initialize selectedGender with 'female'
-
+    const dispatch=useDispatch();
     const handleSubmit = (values) => {
         values.gender=selectedGender;
-        console.log("Form values:", values);
-    };
 
+        console.log("Form values:", values);
+        dispatch(registerUserAction({data:values}))
+    };
+   const navigate=useNavigate();
     return (
         <div className=''>
             <Formik
@@ -108,6 +113,12 @@ const Register = () => {
                     </div>
                 </Form>
             </Formik>
+            <div className='text-yellow-600 p-4'>
+                
+                 Already Have An Account?
+                
+                 <button className='text-purple-700 px-2' onClick={()=>navigate('../')}>Login Now</button>
+            </div>
         </div>
     );
 };

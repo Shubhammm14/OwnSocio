@@ -2,6 +2,9 @@ import React from 'react';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { TextField } from '@mui/material';
 import * as yup from 'yup';
+import { useDispatch } from 'react-redux';
+import { loginUserAction } from '../../Redux/Auth/authAction';
+import { useNavigate } from 'react-router-dom';
 
 const initialValues = {
   email: '',
@@ -14,7 +17,10 @@ const validationSchema = yup.object().shape({
 });
 
 const Login = () => {
+  const dispatch=useDispatch();
+  const navigate=useNavigate();
   const handleSubmit = (values) => {
+    dispatch(loginUserAction({data:values}))
     console.log("Form values:", values);
   };
 
@@ -56,6 +62,11 @@ const Login = () => {
           </div>
         </Form>
       </Formik>
+      <div className='text-yellow-600 p-5' >
+  Did'nt Have Any Account?
+<button className='text-purple-700 px-2' onClick={()=>navigate('/signup')}>Create An Account</button>
+</div>
+
     </div>
   );
 };
