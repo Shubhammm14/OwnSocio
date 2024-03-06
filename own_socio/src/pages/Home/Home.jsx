@@ -21,6 +21,7 @@ const Home = () => {
         </Grid>
         <Grid item xs={12} lg={location.pathname === "/" ? 6 : 9} className=''>
           <div>
+            
             <Routes>
               <Route path='/' element={<MiddlePart/>} />
               <Route path='/reels' element={<Reels />} />

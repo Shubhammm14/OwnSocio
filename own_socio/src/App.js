@@ -11,7 +11,7 @@ function App() {
       <Routes>
         <Route path='/*' element={<Home/>}/>
         <Route path='/message' element={<Message/>}/>
-        <Route path='/*' element={<Authentication/>}/>
+        <Route path='/auth/*' element={<Authentication/>}/>
       </Routes>
     </div>
   );
