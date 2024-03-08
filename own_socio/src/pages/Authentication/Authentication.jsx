@@ -12,7 +12,7 @@ const Authentication = () => {
             <p className='text-center'>Connecting Lives, Sharing Stories,<br />Your Social World, Your Way</p>
           </div>
           <Routes>
-            <Route path='/login' element={<Login/>}/>
+            <Route path='/' element={<Login/>}/>
             <Route path='/signup' element={<Register/>}/>
             
           </Routes>

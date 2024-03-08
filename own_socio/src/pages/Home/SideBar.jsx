@@ -1,17 +1,41 @@
-import React from 'react'
-import { navigationMenu } from './SideBarNavigation'
+import React, { useEffect } from 'react'
+
 import { Avatar, Button, ClickAwayListener, Divider, Grow, MenuItem, MenuList, Paper, Popper, Stack } from '@mui/material'
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { useSelector } from 'react-redux';
+import { Route, Routes, useNavigate } from 'react-router-dom';
+import NavigationMenu from './SideBarNavigation';
+
 const SideBar = () => {
+  const navigate=useNavigate()
+  const {auth}=useSelector(store=>store)
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
+  const handleItemClick = (path) => {
+    
+    navigate(path);
+  };
+  
+
+  const handlelogout = () => {
+    localStorage.removeItem("token");
+    handleClose();
+    window.location.reload()
+    // Redirect to login page or any other appropriate route
+    
+  };
+  const handleProfile=()=>{
+    handleClose()
+    if(auth && auth.user&&auth.user.id)
+    navigate(`/profile/${auth.user.id}`)
+  }
 
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
   };
 
   const handleClose = (event) => {
-    if (anchorRef.current && anchorRef.current.contains(event.target)) {
+    if (event&&anchorRef.current && anchorRef.current.contains(event.target)) {
       return;
     }
 
@@ -37,14 +61,15 @@ const SideBar = () => {
     prevOpen.current = open;
   }, [open]);
   return (
+    
     <div className='bg-pink-700 flex flex-col text-white justify-content h-[100vh]' style={{ fontFamily: "cursive" }}>
       <div className='space-y-8 pl-5'>
         <div className='my-8'>
           <span className='logo font-bold text-2xl m-4 ' style={{ fontFamily: 'cursive' }}>Own Socio</span>
         </div>
         <div className='space-y-5 text-white'>
-          {navigationMenu.map((item) => (
-            <div className='flex space-x-3' key={item.title}>
+          {NavigationMenu().map((item) => (
+            <div className='flex space-x-3 cursor-pointer 'onClick={()=>handleItemClick(item.path)} key={item.title}>
               {item.icon}
               <p className='text-xl'>{item.title}</p>
             </div>
@@ -58,8 +83,8 @@ const SideBar = () => {
             <div className='flex'>
             <Avatar className='m-2' src='https://cdn.pixabay.com/photo/2021/11/12/03/04/woman-6787784_640.png' />
             <div className='mx-2'>
-              <p className='font-bold text-xl'>shubham</p>
-              <p className='opacity-70'>@shubhamCdd</p>
+              <p className='font-bold text-xl'>{auth.user.firstName} {auth.user.lastName}</p>
+              <p className='opacity-70'>{`@${auth.user.firstName.toLowerCase()}_${auth.user.lastName.toLowerCase()}${auth.user.id}`}</p>
             </div>
             </div>
 
@@ -73,6 +98,7 @@ const SideBar = () => {
                   aria-expanded={open ? 'true' : undefined}
                   aria-haspopup="true"
                   onClick={handleToggle}
+                  className='cursor-pointer'
                 />
 
 
@@ -101,9 +127,10 @@ const SideBar = () => {
                             aria-labelledby="composition-button"
                             onKeyDown={handleListKeyDown}
                           >
-                            <MenuItem onClick={handleClose}>Profile</MenuItem>
-                            <MenuItem onClick={handleClose}>My account</MenuItem>
-                            <MenuItem onClick={handleClose}>Logout</MenuItem>
+                           
+                            <MenuItem onClick={handleProfile}>Profile</MenuItem>
+                            <MenuItem onClick={handleClose}>Settings</MenuItem>
+                            <MenuItem onClick={handlelogout}>Logout</MenuItem>
                           </MenuList>
                         </ClickAwayListener>
                       </Paper>

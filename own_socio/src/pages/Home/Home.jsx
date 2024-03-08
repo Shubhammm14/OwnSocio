@@ -1,5 +1,5 @@
 import { Grid } from '@mui/material'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Route, Routes, useLocation } from 'react-router-dom'
 
 import SideBar from './SideBar'
@@ -8,9 +8,10 @@ import Profile from '../Components/Profile/Profile'
 import CreateReels from '../Components/Reels/CreateReels'
 import Reels from '../Components/Reels/Reels'
 import MiddlePart from '../Components/MiddlePart/MiddlePart'
+import { useDispatch, useSelector } from 'react-redux'
+import { getProfileAction } from '../../Redux/Auth/authAction'
 const Home = () => {
   const location = useLocation();
-  
   return (
     <div>
       <Grid container spacing={0}>
