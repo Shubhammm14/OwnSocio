@@ -19,16 +19,16 @@ const tabs = [
 
 const initialValues = {
 
-  first_name: '',
-  last_name: '',
+  firstName: '',
+  lastName: '',
   bio: '',
   website: ''
 };
 
 const validationSchema = yup.object().shape({
 
-  first_name: yup.string().required('First Name is required'),
-  last_name: yup.string().required('Last Name is required'),
+  firstName: yup.string().required('First Name is required'),
+  lastName: yup.string().required('Last Name is required'),
   bio: yup.string().max(200, 'Bio must be at most 200 characters'),
 
 });
@@ -61,7 +61,6 @@ const Profile = () => {
     transform: 'translate(-50%, -50%)',
     width: '50%',
     backgroundColor: 'white',
-
     boxShadow: '5px 5px purple', // Wrapped the shadow value in quotes
     padding: '4px' // Changed 'p' to 'padding' and wrapped the value in quotes
   };
@@ -71,8 +70,11 @@ const Profile = () => {
 
 
   const handleSubmit = (values) => {
-    console.log("hiiiii")
+    console.log("hiiiii",values)
+    window.location.reload()
+    dispatch(updateProfileAction(values))
     handleClose()
+  
     console.log("Form values:", values);
   };
   return (
@@ -80,10 +82,16 @@ const Profile = () => {
       <div className='rounded-md border border-2  w-[70%] '>
         <div className='bg-black  shadow-2xl'>
           <div className='h-[15rem]'>
-            <img className='rounded-t-md h-full w-full' src={(auth.user.coverImg)?auth.user.coverImg:`https://cdn.pixabay.com/photo/2022/10/05/21/01/winter-7501511_1280.png`} onClick={handleOpen} alt="Profile Banner" />
+          <input type="file" accept="image/*" id="profilePicInput" style={{ display: 'none' }} />
+          <label htmlFor="profilePicInput" className="cursor-pointer">
+            <img className='rounded-t-md h-full w-full' src={(auth.user.coverImg)?auth.user.coverImg:`https://cdn.pixabay.com/photo/2022/10/05/21/01/winter-7501511_1280.png`} alt="Profile Banner" />
+          </label>
           </div>
           <div className='px-5 flex justify-between items-start mt-5 h-[5rem]'>
-            <Avatar src={(auth.user.profileImg)?auth.user.profileImg:''} onClick={handleOpen} className='border border-4 border-purple-500 rounded-full transform -translate-y-24' sx={{ width: '10rem', height: '10rem' }} />
+          <label htmlFor="avatarInput" className="cursor-pointer">
+            <Avatar src={(auth.user.profileImg)?auth.user.profileImg:''}  className='border border-4 border-purple-500 rounded-full transform -translate-y-24' sx={{ width: '10rem', height: '10rem' }} />
+            <input type="file" accept="image/*" id="avatarInput" style={{ display: 'none' }} />
+            </label>
             <button className='text-purple-600 border border-2 border-purple-500 px-4 py-1 rounded-full' onClick={handleOpen}>EDIT PROFILE</button>
 
           </div>
@@ -104,15 +112,15 @@ const Profile = () => {
             </div>
           </div>
           <div className=''>
-            <input type="file" accept="image/*" id="profilePicInput" style={{ display: 'none' }} />
-            <label htmlFor="profilePicInput" className="cursor-pointer">
+            
+            <label htmlFor="profilePicInputModal" className="cursor-pointer">
               <img className='w-full h-[25vh] rounded-xl' src={auth.user.coverImg?auth.user.coverImg:"https://cdn.pixabay.com/photo/2022/10/05/21/01/winter-7501511_1280.png"} alt="Preview" />
             </label>
           </div>
           <div>
-            <label htmlFor="avatarInput" className="cursor-pointer">
+            <label htmlFor="avatarInputModal" className="cursor-pointer">
               <Avatar src={(auth.user.profileImg)?auth.user.profileImg:''} className='border border-4 border-purple-500 rounded-full transform) -translate-y-24 mx-5 mb-0' sx={{ width: '10rem', height: '10rem' }} />
-              <input type="file" accept="image/*" id="avatarInput" style={{ display: 'none' }} />
+              
             </label>
           </div>
           <div>
@@ -128,21 +136,21 @@ const Profile = () => {
                     <Field
                       className='w-full bg-white rounded-xl py-2 px-4 border border-transparent focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent'
                       as={TextField}
-                      name='first_name'
+                      name='firstName'
                       label="First Name"
                       variant="outlined"
                     />
-                    <ErrorMessage name="first_name" component="div" className="text-yellow-500" />
+                    <ErrorMessage name="firstName" component="div" className="text-yellow-500" />
                   </div>
                   <div className='flex flex-col'>
                     <Field
                       className='w-full bg-white rounded-xl py-2 px-4'
                       as={TextField}
-                      name='last_name'
+                      name='lastName'
                       label="Last Name"
                       variant='outlined'
                     />
-                    <ErrorMessage name="last_name" component="div" className="text-yellow-500" />
+                    <ErrorMessage name="lastName" component="div" className="text-yellow-500" />
                   </div>
                   <div className='flex flex-col'>
                     <Field

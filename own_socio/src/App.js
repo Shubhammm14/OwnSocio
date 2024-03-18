@@ -12,6 +12,7 @@ function App() {
   const {auth}=useSelector(store=>store)
   const dispatch=useDispatch();
   const jwt=localStorage.getItem("token")
+  
   console.log(auth);
   useEffect(()=>{
     dispatch(getProfileAction(jwt))
