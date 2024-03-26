@@ -12,7 +12,7 @@ const SideBar = () => {
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
   const handleItemClick = (path) => {
-    
+    console.log(path)
     navigate(path);
   };
   
@@ -24,11 +24,19 @@ const SideBar = () => {
     // Redirect to login page or any other appropriate route
     
   };
-  const handleProfile=()=>{
-    handleClose()
-    if(auth && auth.user&&auth.user.id)
-    navigate(`/profile/${auth.user.id}`)
-  }
+  const handleProfile = () => {
+    console.log('Clicked on profile.'); // Debugging
+    console.log('Auth user:', auth.user); // Debugging
+    if (auth && auth.user && auth.user.id) {
+      const profilePath = `/profile/${auth.user.id}`;
+      console.log('Profile path:', profilePath); // Debugging
+      navigate(profilePath);
+    } else {
+      console.error('User data missing or invalid.'); // Debugging
+    }
+    handleClose();
+  };
+  
 
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);

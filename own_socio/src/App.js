@@ -12,11 +12,11 @@ function App() {
   const {auth}=useSelector(store=>store)
   const dispatch=useDispatch();
   const jwt=localStorage.getItem("token")
+  const  {post}=useSelector(store=>store)
   
-  console.log(auth);
   useEffect(()=>{
     dispatch(getProfileAction(jwt))
-  },[jwt])
+  },[jwt,post.savedPost])
   return (
     <div>
       <Routes>

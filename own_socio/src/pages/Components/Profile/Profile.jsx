@@ -42,6 +42,8 @@ const Profile = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const dispatch=useDispatch()
+  const {post}=useSelector(store=>store)
+  console.log("?????",post.savedPost)  
   const theme = createTheme({
     palette: {
       purple: {
@@ -51,6 +53,7 @@ const Profile = () => {
   });
   
   const handleChange = (event, newValue) => {
+    
     setValue(newValue);
   };
   
@@ -65,8 +68,8 @@ const Profile = () => {
     padding: '4px' // Changed 'p' to 'padding' and wrapped the value in quotes
   };
 
-
-
+  console.log("user",auth.user);
+  
 
 
   const handleSubmit = (values) => {
@@ -84,7 +87,7 @@ const Profile = () => {
           <div className='h-[15rem]'>
           <input type="file" accept="image/*" id="profilePicInput" style={{ display: 'none' }} />
           <label htmlFor="profilePicInput" className="cursor-pointer">
-            <img className='rounded-t-md h-full w-full' src={(auth.user.coverImg)?auth.user.coverImg:`https://cdn.pixabay.com/photo/2022/10/05/21/01/winter-7501511_1280.png`} alt="Profile Banner" />
+            <img className='rounded-t-md h-full w-full' src={auth.user.coverImg?auth.user.coverImg:`https://cdn.pixabay.com/photo/2022/10/05/21/01/winter-7501511_1280.png`} alt="Profile Banner" />
           </label>
           </div>
           <div className='px-5 flex justify-between items-start mt-5 h-[5rem]'>
@@ -194,7 +197,8 @@ const Profile = () => {
             <p className='px-2'>{`@${auth.user.firstName.toLowerCase()}_${auth.user.lastName.toLowerCase()}${auth.user.id}`}</p>
             <div className='flex p-4'>
               <span> posts</span>
-              <span className='px-4'>{(auth.user.followers===null)?0:auth.user.followers.length()} followers</span>
+              <span className='px-4'>{(auth.user.followers === null) ? 0 : auth.user.followers.length} followers</span>
+
               <span>{(auth.user.followings===null)?0:auth.user.followings.length()} followings</span>
             </div>
           </div>
@@ -213,7 +217,7 @@ const Profile = () => {
         <div className='flex flex-col items-center'>
           {value === 'post' ? (
             <div className='w-[80%]'>
-              {dummy.map((_, index) => <PostCard key={index} />)}
+              {/* {dummy.map((_, index) => <PostCard key={index} />)} */}
             </div>
           ) : value === 'reels' ? (
             <div className='flex flex-wrap gap-2 justify-center   '>
@@ -221,7 +225,8 @@ const Profile = () => {
             </div>
           ) : value==='saved'?(
             <div>
-              {auth.user.savedPost.map(()=><PostCard/>)}
+             {post.savedPost && post.savedPost.map((itm) => <PostCard key={itm.id} item={itm} />)}
+
             </div>
           ):""}
         </div>
