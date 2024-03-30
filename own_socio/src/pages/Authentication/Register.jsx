@@ -25,11 +25,11 @@ const validationSchema = yup.object().shape({
 const Register = () => {
     const [selectedGender, setSelectedGender] = useState('female'); // Initialize selectedGender with 'female'
     const dispatch=useDispatch();
+    
     const handleSubmit = (values) => {
         values.gender=selectedGender;
-
-        console.log("Form values:", values);
         dispatch(registerUserAction({data:values}))
+          navigate('/')
     };
    const navigate=useNavigate();
     return (

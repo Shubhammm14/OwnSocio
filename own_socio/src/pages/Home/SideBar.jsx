@@ -25,11 +25,10 @@ const SideBar = () => {
     
   };
   const handleProfile = () => {
-    console.log('Clicked on profile.'); // Debugging
-    console.log('Auth user:', auth.user); // Debugging
+    // Debugging
     if (auth && auth.user && auth.user.id) {
       const profilePath = `/profile/${auth.user.id}`;
-      console.log('Profile path:', profilePath); // Debugging
+    
       navigate(profilePath);
     } else {
       console.error('User data missing or invalid.'); // Debugging

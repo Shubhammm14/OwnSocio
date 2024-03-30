@@ -3,7 +3,7 @@ import { Avatar, Card, CardActions, CardContent, CardHeader, CardMedia, Divider,
 import { pink } from '@mui/material/colors';
 import { Bookmark, MarkChatUnread, Favorite, Share, MoreVert } from '@mui/icons-material';
 import { useDispatch, useSelector } from 'react-redux';
-import { createPostComment, likePostAction } from '../../../Redux/Post/postAction';
+import { createPostComment, createPostCommentAction, likePostAction, savePostAction } from '../../../Redux/Post/postAction';
 import Comment from './Comment';
 import { savePost } from '../../../Redux/Post/postAction';
 import { getProfileAction } from '../../../Redux/Auth/authAction';
@@ -16,8 +16,7 @@ const PostCard = ({ item }) => {
   const userLastName = item?.user?.lastName || '';
   const userCreatedAt = item?.createdAt || '';
   const userProfileImage = item?.user?.profileImage || 'fallback_image_url';
-
-  console.log(".....", item);
+  
 
   const [favpost, setFavPost] = useState(item && item.liked?.includes(item.user.id));
   const [sPost, setSPost] = useState(auth && auth.user.savedPost?.some(savedPost => savedPost.id === item.id));
@@ -39,7 +38,7 @@ const PostCard = ({ item }) => {
   const createComment = async () => {
     console.log("create comment")
     try {
-      await dispatch(createPostComment({ postId: item.id, jwt: jwt, comment: commentText }));
+      await dispatch(createPostCommentAction({ postId: item.id, jwt: jwt, comment: commentText }));
       setCommentText('');
     } catch (error) {
       console.error('Error creating comment:', error);
@@ -48,15 +47,11 @@ const PostCard = ({ item }) => {
 
   const savePostHandle = async () => {
     try {
-      await dispatch(savePost({ postId: item.id, jwt: jwt }));
-    
-
-    
-
+      await dispatch(savePostAction({ postId: item.id, jwt: jwt }));
       // Update the sPost state based on whether the post is saved or not
       setSPost(!sPost);
 
-      console.log('SPost state updated:', sPost); // Debugging log
+      
     } catch (error) {
       console.error('Error saving post:', error);
     }
@@ -118,7 +113,7 @@ const PostCard = ({ item }) => {
               value={commentText}
               onChange={(e) => setCommentText(e.target.value)}
               onKeyPress={(e) => {
-                console.log('Key pressed:', e.key);
+                
                 if (e.key === 'Enter' && !e.shiftKey) {
                   e.preventDefault(); // Prevents adding a new line in the input
                   createComment();

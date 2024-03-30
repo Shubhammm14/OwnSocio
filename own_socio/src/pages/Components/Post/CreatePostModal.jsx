@@ -5,7 +5,7 @@ import ImageSearchIcon from '@mui/icons-material/ImageSearch';
 import VideoCameraBackIcon from '@mui/icons-material/VideoCameraBack';
 import { uploadToCloudinary } from '../../../utils/UploadToCloudnary';
 import { useFormik } from 'formik';
-import { createPostAction } from '../../../Redux/Post/postAction';
+import { createPostAction, getAllPostAction } from '../../../Redux/Post/postAction';
 
 const CreatePostModal = ({ handleClose, open }) => {
     const { auth } = useSelector(store => store);
@@ -17,7 +17,7 @@ const CreatePostModal = ({ handleClose, open }) => {
     const handleSelectImage = async (e) => {
         setIsLoading(true);
         const imageUrl = await uploadToCloudinary(e.target.files[0], 'image');
-        console.log(imageUrl)
+        
         setSelectedImage(imageUrl);
         setIsLoading(false);
     };
@@ -46,8 +46,9 @@ const CreatePostModal = ({ handleClose, open }) => {
              setSelectedVideo(null)
              setCaption('')
              handleClose()
+             
              setIsLoading(false)
-
+            
             // You can perform further actions here, like dispatching an action to post the data
         }
     });

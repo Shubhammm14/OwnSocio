@@ -10,8 +10,10 @@ const Comment = ({ item }) => {
   const { auth } = useSelector(store => store);
   const { user } = auth;
   const jwt = localStorage.getItem('token');
-  const [favComment, setFavComment] = useState(liked.includes(auth.user.id)); // Initialize based on liked array
-  console.log('favComment:', favComment);
+
+
+  const [favComment, setFavComment] = useState(liked.includes(auth.user)); // Initialize based on liked array
+  
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -20,7 +22,7 @@ const Comment = ({ item }) => {
   };
 
   const likeCommentHandler = async () => {
-    console.log('pop');
+
     try {
       await dispatch(likeComment({ commentId: item.id, jwt: jwt }));
       setFavComment(!favComment);
@@ -30,7 +32,7 @@ const Comment = ({ item }) => {
   };
 
   useEffect(() => {
-    console.log('favComment changed:', favComment);
+    
   }, [favComment]);
 
   return (

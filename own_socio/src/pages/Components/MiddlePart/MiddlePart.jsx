@@ -23,8 +23,8 @@ const jwt=localStorage.getItem("token");
   useEffect(() => {
     dispatch(getAllPostAction(jwt));
     
-  }, [post.newComment,post.savePost]); // Add dispatch as dependency to avoid lint warnings
-  console.log("post",post)
+  }, [post.newComment,post.savePost,createPostOpen]); // Add dispatch as dependency to avoid lint warnings
+  
   const handleCloseCreatePostModal = () => {
     setCreatePostOpen(false);
   };
@@ -78,10 +78,10 @@ const jwt=localStorage.getItem("token");
       </Card>
 
       <div className='my-5'>
-       {post&&post.posts&&post.posts.map((item, index) => (
-        
-    <PostCard  item={item} key={`post-${index}`} className='shadow-xl' />
+      {post && post.posts && post.posts.slice().reverse().map((item, index) => (
+  <PostCard item={item} key={`post-${index}`} className='shadow-xl' />
 ))}
+
 
       </div>
     </div>

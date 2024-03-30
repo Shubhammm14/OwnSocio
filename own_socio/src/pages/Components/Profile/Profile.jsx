@@ -7,6 +7,7 @@ import { ErrorMessage, Field, Formik,Form } from 'formik';
 import * as yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateProfileAction } from '../../../Redux/Auth/authAction';
+import { savePostAction } from '../../../Redux/Post/postAction';
 
 
 const tabs = [
@@ -34,6 +35,7 @@ const validationSchema = yup.object().shape({
 });
 
 const Profile = () => {
+
   const dummy = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
   const {auth}=useSelector(store=>store)
   const { id } = useParams();
@@ -43,7 +45,7 @@ const Profile = () => {
   const handleClose = () => setOpen(false);
   const dispatch=useDispatch()
   const {post}=useSelector(store=>store)
-  console.log("?????",post.savedPost)  
+  
   const theme = createTheme({
     palette: {
       purple: {
@@ -67,18 +69,16 @@ const Profile = () => {
     boxShadow: '5px 5px purple', // Wrapped the shadow value in quotes
     padding: '4px' // Changed 'p' to 'padding' and wrapped the value in quotes
   };
-
-  console.log("user",auth.user);
   
 
 
   const handleSubmit = (values) => {
-    console.log("hiiiii",values)
+    
     window.location.reload()
     dispatch(updateProfileAction(values))
     handleClose()
   
-    console.log("Form values:", values);
+    
   };
   return (
     <Card className='py-10 flex  flex-col justify-center items-center '>
@@ -225,7 +225,7 @@ const Profile = () => {
             </div>
           ) : value==='saved'?(
             <div>
-             {post.savedPost && post.savedPost.map((itm) => <PostCard key={itm.id} item={itm} />)}
+            {auth.user && auth.user.savedPost.slice().reverse().map((itm) => <PostCard key={itm.id} item={itm} />)}
 
             </div>
           ):""}

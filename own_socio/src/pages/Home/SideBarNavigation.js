@@ -36,7 +36,7 @@ const NavigationMenu = () => {
     {
       title: 'Message',
       icon: <ChatIcon />,
-      path: "/"
+      path: "/message"
     },
     {
       title: 'Lists',
