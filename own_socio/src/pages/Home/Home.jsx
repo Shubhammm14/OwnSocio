@@ -10,6 +10,7 @@ import Reels from '../Components/Reels/Reels'
 import MiddlePart from '../Components/MiddlePart/MiddlePart'
 import { useDispatch, useSelector } from 'react-redux'
 import { getProfileAction } from '../../Redux/Auth/authAction'
+import StoryPsge from './StoryPsge'
 const Home = () => {
   const location = useLocation();
   return (
@@ -28,6 +29,7 @@ const Home = () => {
               <Route path='/reels' element={<Reels />} />
               <Route path='/create-reels' element={<CreateReels />} />
               <Route path='/profile/:id' element={<Profile />} />
+              <Route path='stories/:id' element={<StoryPsge/>}/>
             </Routes>
           </div>
         </Grid>

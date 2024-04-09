@@ -1,27 +1,31 @@
-import { Avatar, Button, CardHeader, IconButton } from '@mui/material'
-import { purple, red } from '@mui/material/colors'
-import React from 'react'
-import MoreVert from '@mui/icons-material/MoreVert'
-const PopularUSerCard = () => {
+import { Avatar, Button, CardHeader, IconButton } from '@mui/material';
+import { useDispatch } from 'react-redux';
+import { findSuggestions, followUser } from '../../../Redux/Auth/authAction';
+
+const PopularUserCard = ({ item }) => {
+  const dispatch = useDispatch();
+
+  const handleFollow = () => {
+    dispatch(followUser({ itemId: item.id }));
+    window.location.reload()
+  };
+
   return (
     <div className='h-[5vh] cursor-pointer'>
-        <CardHeader className=''
+      <CardHeader
         avatar={
-          <Avatar sx={{ bgcolor: purple[900] }} aria-label="recipe">
-            R
-          </Avatar>
+          <Avatar src={item.profileImg} aria-label="recipe" />
         }
         action={
           <IconButton aria-label="settings">
-            <Button className='text-purple-700'>Follow</Button>
+            <Button className='text-purple-700' onClick={handleFollow}>Follow</Button>
           </IconButton>
         }
-        title="Shrimp and Chorizo Paella"
-        subheader="September 14, 2016"
+        title={item.firstName + ' ' + item.lastName}
+        subheader={`@${item.firstName.toLowerCase()}_${item.lastName.toLowerCase()}${item.id}`}
       />
-      
     </div>
-  )
-}
+  );
+};
 
-export default PopularUSerCard
+export default PopularUserCard;

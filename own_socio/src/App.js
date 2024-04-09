@@ -16,7 +16,7 @@ function App() {
   
   useEffect(()=>{
     dispatch(getProfileAction(jwt))
-  },[jwt,post.savedPost])
+  },[jwt,post.savedPost,auth.user])
   return (
     <div>
       <Routes>
